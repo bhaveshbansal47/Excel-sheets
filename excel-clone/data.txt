@@ -1,0 +1,22 @@
+if(cobj.formula){
+            $('.cell_number').val('');
+            cobj.formula = '';
+
+            for(let i = 0; i < cobj.upstream.length; i++){
+                let upso = cobj.upstream[i];
+                let fullupso = rows_value[upso.rid][upso.cid];
+                for(let j = 0; j < fullupso.downstream.length; j++){
+                    let downso = fullupso.downstream[j];
+                    if(downso.rid == rid && downso.cid == cid){
+                        fullupso.downstream.splice(j,1);
+                        break;
+                    }
+                }
+            }
+            cobj.upstream = [];
+        }
+
+        for(let i = 0; i < cobj.downstream.length; i++){
+            let downso = cobj.downstream[i];
+            updateVal()
+        }

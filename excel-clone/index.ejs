@@ -1,0 +1,184 @@
+<html>
+
+<head>
+    <title>
+        Excel-Clone
+    </title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body onload="tablejoiner()">
+    <div class="container">
+        <div class="title">Book1 - Excel</div>
+        <div class="menu-bar">
+            <div id="menu-file"><span>File</span></div>
+            <div id = "menu-icon" class="selected" data-content="home"><span>Home</span></div>
+            <div id = "menu-icon" data-content="insert"><span>Insert</span></div>
+            <div id = "menu-icon" data-content="page_layout"><span>Page Layout</span></div>
+            <div id = "menu-icon" data-content="formulas"><span>Formulas</span></div>
+            <div id = "menu-icon" data-content="data"><span>Data</span></div>
+            <div id = "menu-icon" data-content="review"><span>Review</span></div>
+            <div id = "menu-icon" data-content="view"><span>View</span></div>
+            <div id = "menu-icon" data-content="help"><span>Help</span></div>
+        </div>
+        <div id="home" class="menu-icon-bar selected">
+            <div class="icon-bar">
+                <div class="icon-cut"><img src="icons8-cut-64.png"></div>
+                <div class="icon-copy"><img src="icons8-copy-96.png"></div>
+                <div class="icon-paste"><img src="icons8-paste-128.png"></div>
+                <div>
+                    <select class="font-name">
+                        <option style="--font:Noto Sans" value="Noto Sans">Noto Sans</option>
+                        <option style="--font:Arial" value="Arial">Arial</option>
+                        <option style="--font:Calibri" value="Calibri">Calibri</option>
+                        <option style="--font:Comic Sans MS" value="Comic Sans MS">Comic Sans MS</option>
+                        <option style="--font:Courier New" value="Courier New">Courier New</option>
+                        <option style="--font:Impact" value="Impact">Impact</option>
+                        <option style="--font:Georgia" value="Georgia">Georgia</option>
+                        <option style="--font:Garamond" value="Garamond">Garamond</option>
+                        <option style="--font:Lato" value="Lato">Lato</option>
+                        <option style="--font:Open Sans" value="Open Sans">Open Sans</option>
+                        <option style="--font:Palatino" value="Palatino">Palatino</option>
+                        <option style="--font:Verdana" value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div>
+                    <select class="font-size">
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="36">36</option>
+                        <option value="48">48</option>
+                        <option value="72">72</option>
+                    </select>
+                </div>
+                <div class="icon-bold"><img src="icons8-bold-80.png"></div>
+                <div class="icon-italic"><img src="icons8-italic-80.png"></div>
+                <div class="icon-underline"><img src="icons8-underline-80.png"></div>
+                <div class="icon-fill"><img src="icons8-fill-color-64.png"></div>
+                <input type="color" id="fill-color" value="#ffffff">
+                <div class="icon-color"><img src="icons8-text-color-80.png"></div>
+                <input type="color" id="text-color" value="#000000">
+                <div class="align icon-alignl" data-content="left"><img src="icons8-align-left-96.png"></div>
+                <div class="align icon-alignc" data-content="center"><img src="icons8-align-center-96.png"></div>
+                <div class="align icon-alignr" data-content="right"><img src="icons8-align-right-96.png"></div>
+            </div>
+        </div>
+        <div id="insert" class="menu-icon-bar">
+            <div class="icon-bar">
+                insert
+            </div>
+        </div>
+        <div id="page_layout" class="menu-icon-bar">
+            <div class="icon-bar">
+                page layout
+            </div>
+        </div>
+        <div id="formulas" class="menu-icon-bar">
+            <div class="icon-bar">
+                formula
+            </div>
+        </div>
+        <div id="data" class="menu-icon-bar">
+            <div class="icon-bar">
+                data
+            </div>
+        </div>
+        <div id="review" class="menu-icon-bar">
+            <div class="icon-bar">
+                review
+            </div>
+        </div>
+        <div id="view" class="menu-icon-bar">
+            <div class="icon-bar">
+                view
+            </div>
+        </div>
+        <div id="help" class="menu-icon-bar">
+            <div class="icon-bar">
+                help
+            </div>
+        </div>
+        <div class="formula-bar">
+            <div class="cell_number"><textarea rows="1"></textarea></div>
+            <div>fx</div>
+            <div class="formula"><textarea class="txtformula" rows="1"></textarea></div>
+        </div>
+        <div class="content-bar">
+            <div class="text_measure"></div>
+            <div class="tl-cell"></div>
+            <div class="column-header">
+                <% for(var i = 1; i <= cols; i++) { 
+                    var str = "";
+                    var n = i;
+                    while(n > 0){
+                        var rem = n % 26;
+                        if(rem == 0){
+                            str = 'Z' + str;
+                            n = Math.floor(n/26) - 1;
+                        }else{
+                            str = String.fromCharCode(rem - 1 + 65) + str;
+                            n = Math.floor(n / 26);
+                        }
+                    }
+                %>
+                <div class="cells__alphabet"><%= str %></div>
+                <% } %>
+            </div>
+            <div class="row-header">
+                <!-- <table>
+                    <% for(var i = 0; i < rows; i++) { %>
+                    <tr>
+                        <td class="cells__number"><%= i+1%></td>
+                    </tr>
+                    <% } %>
+                </table> -->
+                <% for(var i = 0; i < rows; i++) { %>
+                        <div class="cells__number" id=<%= "number_row" + i.toString()%>><%= i+1%></div>
+                    <% } %>
+            </div>
+            <div class="grid">
+                <!-- <table>
+                    <% for(var i = 0; i < rows; i++) { %>
+                    <tr>
+                        <% for(var j = 0; j < cols; j++) { %>
+                        <td class="cells__input" contenteditable="true"></td>
+                        <% } %>
+                    </tr>
+                    <% } %>
+                </table> -->
+                <% for(var i = 0; i < rows; i++) { %>
+                <div class="cell_row">
+                    <% for(var j = 0; j < cols; j++) { %>
+                    <div class="cells__input" id=<%= "col-" + i.toString() + "-" + j.toString()%>></div>
+                    <% } %>
+                </div>
+                <% } %>
+
+            </div>
+        </div>
+        <div class="sheet-bar">
+            <div class="sheet_number">Sheet 1</div>
+            <div class="icon-add"><img src="icons8-add-96.png"></div>
+        </div>
+    </div>
+    <div class="file_popup">
+        <div class="options">
+            <div class="icon-back"><img src="arrows.png"></div>
+            <div class="icon-new"><img src="new.png">New</div>
+            <div class="icon-open"><img src="folder.png">Open</div>
+            <div class="icon-save"><img src="save.png">Save</div>
+        </div>
+        <div class="file_explorer">
+            <div class="recent_files"></div>
+        </div>
+    </div>
+</body>
+
+</html>
